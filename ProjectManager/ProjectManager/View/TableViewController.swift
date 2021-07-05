@@ -33,6 +33,7 @@ class TableViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
             let viewController = segue.destination as? DetailViewController
+//            var indexPath = todoTableView.indexPathForSelectedRow
             
             if let index = sender as? Int {
                 let item = viewModel.itemInfo(at: index)

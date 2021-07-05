@@ -20,3 +20,5 @@ struct TableItem {
         self.date = date
     }
 }
+
+// 게시글 id 찾

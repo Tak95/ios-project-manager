@@ -25,7 +25,7 @@ class DetailViewController: UIViewController {
         if mode == .addMode {
             addNewTODO()
         } else {
-            cancel()
+            saveEditedContent()
         }
     }
     
@@ -40,6 +40,9 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUI()
+        self.newTitle.isEnabled = false
+        self.newDate.isEnabled = false
+        self.newContent.isEditable = false
     }
     
     func updateUI() {
@@ -63,15 +66,9 @@ class DetailViewController: UIViewController {
         let date: Double = dateConverter.dateToNumber(date: newDate.date)
         let content: String = newContent.text
         
-        let printString = """
-            --- TODO 추가 ---
-            title: \(title)
-            date: \(date)
-            content: \(content)
-            ----------------
-            """
-        print(printString)
-        
+        dummy.append(TableItem(title: title, summary: content, date: date))
+        print(dummy)
+
         dismiss(
             animated: true,
             completion: nil
@@ -79,23 +76,17 @@ class DetailViewController: UIViewController {
     }
     
     private func editTODO() {
+        self.newTitle.isEnabled = true
+        self.newDate.isEnabled = true
+        self.newContent.isEditable = true
+    }
+    
+    private func saveEditedContent() {
         let title: String = newTitle.text!
         let date: Double = dateConverter.dateToNumber(date: newDate.date)
         let content: String = newContent.text
-        
-        let printString = """
-            --- TODO 변경 ---
-            title: \(title)
-            date: \(date)
-            content: \(content)
-            ----------------
-            """
-        print(printString)
-        
-        dismiss(
-            animated: true,
-            completion: nil
-        )
+//        dummy[index] = TableItem(title: title, summary: content, date: date)
+        print(dummy)
     }
     
     private func cancel() {
