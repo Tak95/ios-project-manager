@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import MobileCoreServices
 
-struct TableItem {
+final class TableItem: NSObject, Codable {
     let title: String
     let summary: String
     let date: Double
@@ -21,4 +22,36 @@ struct TableItem {
     }
 }
 
-// 게시글 id 찾
+extension TableItem : NSItemProviderWriting {
+    static var writableTypeIdentifiersForItemProvider: [String] {
+        return [String(kUTTypeData)]
+    }
+    
+    func loadData(withTypeIdentifier typeIdentifier: String, forItemProviderCompletionHandler completionHandler: @escaping (Data?, Error?) -> Void) -> Progress? {
+        let progress = Progress(totalUnitCount: 100)
+        do {
+            let data = try JSONEncoder().encode(self)
+            progress.completedUnitCount = 100
+            completionHandler(data, nil)
+        } catch {
+            completionHandler(nil, error)
+        }
+        return progress
+    }
+}
+
+extension TableItem : NSItemProviderReading {
+    static var readableTypeIdentifiersForItemProvider: [String] {
+        return [String(kUTTypeData)]
+    }
+    
+    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> TableItem {
+        do {
+            let tableItem = try JSONDecoder().decode(TableItem.self, from: data)
+            return tableItem
+        } catch {
+            fatalError()
+        }
+    }
+}
+

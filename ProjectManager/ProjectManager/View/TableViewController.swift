@@ -22,6 +22,9 @@ class TableViewController: UIViewController {
         
         todoTableView.delegate = self
         todoTableView.dataSource = self
+        todoTableView.dragInteractionEnabled = true
+        doingTableView.delegate = self
+        doingTableView.dataSource = self
         
         let circleImage = UIImage(systemName: "circle.fill")
         todoTableRowCount.text = "\(viewModel.numOfList)"
